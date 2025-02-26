@@ -4,7 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Border
+  - Target1
+  - Target2
+  - Target3
   layers:
   - Default
   - TransparentFX

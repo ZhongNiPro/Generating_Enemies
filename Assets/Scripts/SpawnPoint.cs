@@ -11,9 +11,9 @@ public class SpawnPoint : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        float radius = .5f;
+        Vector3 size = new(.5f,.5f,.5f);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, radius);
+        Gizmos.DrawWireCube(transform.position, size);
     }
 }

@@ -4,9 +4,9 @@ public class Border : MonoBehaviour
 {
     private void OnDrawGizmos()
     {
-        float radius = GetComponent<SphereCollider>().radius;
+        Vector3 size = new(20, 20, 20);
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, radius);
+        Gizmos.DrawWireCube(transform.position, size);
     }
 }
