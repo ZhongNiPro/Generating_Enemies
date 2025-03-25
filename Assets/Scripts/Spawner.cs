@@ -53,7 +53,7 @@ public class Spawner : MonoBehaviour
 
     private IEnumerator WaitForUse(float seconds)
     {
-        while (true)
+        while (enabled)
         {
             yield return new WaitForSeconds(seconds);
 

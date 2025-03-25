@@ -5,27 +5,21 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour                                                       
 {
+    [SerializeField] private Color _color;
+
     private Target _target;
     private float _speed = 3f;
     private Vector3 zeroPosition = default;
 
     public event Action<Enemy> Collided;
 
+    private void Awake()
+    {
+        GetComponent<Renderer>().material.color = _color;
+    }
+
     private void Update()
     {
-        if (GetComponent<Collider>().GetType() == typeof(SphereCollider))
-        {
-            GetComponent<Renderer>().material.color = Color.green;
-        }
-        else if (GetComponent<Collider>().GetType() == typeof(CapsuleCollider))
-        {
-            GetComponent<Renderer>().material.color = Color.red;
-        }
-        else if (GetComponent<Collider>().GetType() == typeof(BoxCollider))
-        {
-            GetComponent<Renderer>().material.color = Color.blue;
-        }
-
         transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, _speed * Time.deltaTime);
     }
 

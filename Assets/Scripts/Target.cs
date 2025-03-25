@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent (typeof(Renderer))]
+
 public class Target : MonoBehaviour
 {
     private float _pointValue = 10f;
