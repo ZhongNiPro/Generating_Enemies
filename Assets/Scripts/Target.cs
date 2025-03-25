@@ -24,24 +24,24 @@ public class Target : MonoBehaviour
     {
         Vector3 previousPosition = transform.position;
         Vector3 nextPosition = Vector3.zero;
-
-        int axis = Random.Range(0, 3);
-        int even = Random.Range(0, 2) == 0 ? 1 : -1;
+        int axisCount = 3;
+        int signCount = 2;
+        int axis = Random.Range(0, axisCount);
+        int sign = Random.Range(0, signCount) == 0 ? 1 : -1;
 
         switch (axis)
         {
             case 0:
-                nextPosition = new Vector3(previousPosition.x, previousPosition.y, _pointValue * even);
+                nextPosition = new Vector3(previousPosition.x, previousPosition.y, _pointValue * sign);
                 break;
 
             case 1:
-                nextPosition = new Vector3(previousPosition.x, _pointValue * even, previousPosition.z);
+                nextPosition = new Vector3(previousPosition.x, _pointValue * sign, previousPosition.z);
                 break;
 
             case 2:
-                nextPosition = new Vector3(_pointValue * even, previousPosition.y, previousPosition.z);
+                nextPosition = new Vector3(_pointValue * sign, previousPosition.y, previousPosition.z);
                 break;
-
         }
 
         return nextPosition;

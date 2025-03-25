@@ -1,20 +1,15 @@
 using System;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+[RequireComponent(typeof(Rigidbody), typeof(Collider), typeof(Renderer))]
+
+public class Enemy : MonoBehaviour                                                       
 {
-    private Target[] _targets;
     private Target _target;
     private float _speed = 3f;
-
-    public string TargetTag { get; private set; } = default;
+    private Vector3 zeroPosition = default;
 
     public event Action<Enemy> Collided;
-
-    private void Awake()
-    {
-        _targets = FindObjectsOfType<Target>();
-    }
 
     private void Update()
     {
@@ -31,10 +26,6 @@ public class Enemy : MonoBehaviour
             GetComponent<Renderer>().material.color = Color.blue;
         }
 
-        foreach (Target target in _targets)
-            if (target.CompareTag(TargetTag))
-                _target = target;
-
         transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, _speed * Time.deltaTime);
     }
 
@@ -46,8 +37,18 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void ChooseTargetTag(string tag)
+    public void SetTarget(Target target)
     {
-        TargetTag = tag;
+        _target = target;
+    }
+
+    public void SetSpawnPoint(Vector3 point)
+    {
+        zeroPosition = point;
+    }
+
+    public void RefreshPosition()
+    {
+        transform.position = zeroPosition;
     }
 }

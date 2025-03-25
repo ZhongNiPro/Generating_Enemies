@@ -232,6 +232,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130f606f70c6ff147ad4a3340106a7bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemy: {fileID: 2047018365667524665, guid: a46fecfd010d7ca44bb23b4ba6bbadc8, type: 3}
+  _target: {fileID: 1841972072}
 --- !u!1 &215953109
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,6 +278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130f606f70c6ff147ad4a3340106a7bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemy: {fileID: 2047018365667524665, guid: 501f5d1c67ac8bb48be6665e3289d826, type: 3}
+  _target: {fileID: 815998318}
 --- !u!1 &621122129
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,6 +324,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130f606f70c6ff147ad4a3340106a7bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemy: {fileID: 2047018365667524665, guid: ddab3a28676733948a03d79ddd3c0413, type: 3}
+  _target: {fileID: 1452423209}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,14 +643,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21c96cf31d268d14483af0a00eb1a178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemies:
-  - {fileID: 2047018365667524665, guid: 501f5d1c67ac8bb48be6665e3289d826, type: 3}
-  - {fileID: 2047018365667524665, guid: a46fecfd010d7ca44bb23b4ba6bbadc8, type: 3}
-  - {fileID: 2047018365667524665, guid: ddab3a28676733948a03d79ddd3c0413, type: 3}
   _spawnPoints:
-  - {fileID: 621122130}
-  - {fileID: 151813065}
-  - {fileID: 215953110}
+  - {fileID: 621122131}
+  - {fileID: 151813066}
+  - {fileID: 215953111}
 --- !u!1 &1452423208
 GameObject:
   m_ObjectHideFlags: 0

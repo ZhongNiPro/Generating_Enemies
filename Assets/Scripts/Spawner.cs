@@ -4,27 +4,19 @@ using UnityEngine.Pool;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private Enemy[] _enemies;
-    [SerializeField] private Transform[] _spawnPoints;
+    [SerializeField] private SpawnPoint[] _spawnPoints;
 
     private readonly float _repeatRate = .2f;
     private readonly int _poolCapacity = 100;
     private readonly int _poolMaxSize = 100;
-
-    private readonly string _target0Name = "Target1";
-    private readonly string _target1Name = "Target2";
-    private readonly string _target2Name = "Target3";
-    private readonly int _spawnPoint0Number = 0;
-    private readonly int _spawnPoint1Number = 1;
-    private readonly int _spawnPoint2Number = 2;
 
     private ObjectPool<Enemy> _enemyPool;
 
     private void Awake()
     {
         _enemyPool = new ObjectPool<Enemy>(
-            createFunc: () => ActionOnCreate(),
-            actionOnGet: (enemy) => ActionOnGet(enemy),
+            createFunc: () => OnCreateAction(),
+            actionOnGet: (enemy) => OnGetAction(enemy),
             actionOnRelease: (enemy) => enemy.gameObject.SetActive(false),
             actionOnDestroy: (enemy) => Destroy(enemy),
             collectionCheck: true,
@@ -37,30 +29,16 @@ public class Spawner : MonoBehaviour
         StartCoroutine(WaitForUse(_repeatRate));
     }
 
-    private Enemy ActionOnCreate()
+    private Enemy OnCreateAction()
     {
-        Enemy enemy = _enemies[Random.Range(0, _enemies.Length)];
+        Enemy enemy = _spawnPoints[Random.Range(0, _spawnPoints.Length)].SpawnEnemy();
 
-        return Instantiate(enemy);
+        return enemy;
     }
 
-    private void ActionOnGet(Enemy enemy)
+    private void OnGetAction(Enemy enemy)
     {
-        if (enemy.GetComponent<Collider>().GetType() == typeof(SphereCollider))
-        {
-            enemy.transform.SetPositionAndRotation(_spawnPoints[_spawnPoint0Number].position, _spawnPoints[_spawnPoint0Number].rotation); 
-            enemy.ChooseTargetTag(_target0Name);
-        }
-        else if (enemy.GetComponent<Collider>().GetType() == typeof(CapsuleCollider))
-        {
-            enemy.transform.SetPositionAndRotation(_spawnPoints[_spawnPoint1Number].position, _spawnPoints[_spawnPoint1Number].rotation);
-            enemy.ChooseTargetTag(_target1Name);
-        }
-        else if (enemy.GetComponent<Collider>().GetType() == typeof(BoxCollider))
-        {
-            enemy.transform.SetPositionAndRotation(_spawnPoints[_spawnPoint2Number].position, _spawnPoints[_spawnPoint2Number].rotation);
-            enemy.ChooseTargetTag(_target2Name);
-        }
+        enemy.RefreshPosition();
 
         enemy.Collided += OnBorderOut;
         enemy.gameObject.SetActive(true);
