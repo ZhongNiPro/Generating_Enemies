@@ -10,6 +10,8 @@ public class Spawner : MonoBehaviour
     private readonly int _poolCapacity = 100;
     private readonly int _poolMaxSize = 100;
 
+    private WaitForSeconds _waitForSeconds;
+
     private ObjectPool<Enemy> _enemyPool;
 
     private void Awake()
@@ -22,18 +24,18 @@ public class Spawner : MonoBehaviour
             collectionCheck: true,
             defaultCapacity: _poolCapacity,
             maxSize: _poolMaxSize);
+
+        _waitForSeconds = new WaitForSeconds(_repeatRate);
     }
 
     private void Start()
     {
-        StartCoroutine(WaitForUse(_repeatRate));
+        StartCoroutine(WaitForUse());
     }
 
     private Enemy OnCreateAction()
     {
-        Enemy enemy = _spawnPoints[Random.Range(0, _spawnPoints.Length)].SpawnEnemy();
-
-        return enemy;
+        return _spawnPoints[Random.Range(0, _spawnPoints.Length)].SpawnEnemy();
     }
 
     private void OnGetAction(Enemy enemy)
@@ -51,11 +53,11 @@ public class Spawner : MonoBehaviour
         _enemyPool.Release(enemy);
     }
 
-    private IEnumerator WaitForUse(float seconds)
+    private IEnumerator WaitForUse()
     {
         while (enabled)
         {
-            yield return new WaitForSeconds(seconds);
+            yield return _waitForSeconds ;
 
             _enemyPool.Get();
         }

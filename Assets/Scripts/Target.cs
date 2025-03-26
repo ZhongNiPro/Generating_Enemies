@@ -1,17 +1,33 @@
 using UnityEngine;
 
-[RequireComponent (typeof(Renderer))]
+[RequireComponent(typeof(Renderer))]
 
 public class Target : MonoBehaviour
 {
     private float _pointValue = 10f;
     private float _speed = 5f;
+    private int _wayCount = 5;
     private Vector3 _nextPosition;
+    private Vector3[] _wayPoints;
+    private Color _color;
 
     private void Awake()
     {
-        _nextPosition = new(Random.Range(-_pointValue, _pointValue), Random.Range(-_pointValue, _pointValue), Random.Range(-_pointValue, _pointValue));
-        GetComponent<Renderer>().material.color = Random.ColorHSV();
+        _wayPoints = new Vector3[_wayCount];
+
+        for (int i = 0; i < _wayCount; i++)
+        {
+            _wayPoints[i] = new Vector3(
+                Random.Range(-_pointValue, _pointValue),
+                Random.Range(-_pointValue, _pointValue),
+                Random.Range(-_pointValue, _pointValue)
+                );
+        }
+
+        _nextPosition = GetNextPosition();
+
+        _color = Random.ColorHSV();
+        GetComponent<Renderer>().material.color = _color;
     }
 
     private void Update()
@@ -19,31 +35,28 @@ public class Target : MonoBehaviour
         if (transform.position == _nextPosition)
             _nextPosition = GetNextPosition();
 
-        transform.position = Vector3.MoveTowards(transform.position, _nextPosition, _speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(
+            transform.position, 
+            _nextPosition, 
+            _speed * Time.deltaTime);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 size = new(.3f, .3f, .3f);
+
+        Gizmos.color = _color;
+        Gizmos.DrawWireCube(_nextPosition, size);
     }
 
     private Vector3 GetNextPosition()
     {
-        Vector3 previousPosition = transform.position;
-        Vector3 nextPosition = Vector3.zero;
-        int axisCount = 3;
-        int signCount = 2;
-        int axis = Random.Range(0, axisCount);
-        int sign = Random.Range(0, signCount) == 0 ? 1 : -1;
+        int index = Random.Range(0, _wayCount);
+        Vector3 nextPosition = _wayPoints[index];
 
-        switch (axis)
+        if (nextPosition == transform.position)
         {
-            case 0:
-                nextPosition = new Vector3(previousPosition.x, previousPosition.y, _pointValue * sign);
-                break;
-
-            case 1:
-                nextPosition = new Vector3(previousPosition.x, _pointValue * sign, previousPosition.z);
-                break;
-
-            case 2:
-                nextPosition = new Vector3(_pointValue * sign, previousPosition.y, previousPosition.z);
-                break;
+            nextPosition = GetNextPosition();
         }
 
         return nextPosition;

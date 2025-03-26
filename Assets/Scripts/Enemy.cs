@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
 
     private Target _target;
     private float _speed = 3f;
-    private Vector3 zeroPosition = default;
+    private Vector3 _zeroPosition = default;
 
     public event Action<Enemy> Collided;
 
@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
     {
         if (collider.GetComponent<Target>())
         {
-            Collided.Invoke(this);
+            Collided?.Invoke(this);
         }
     }
 
@@ -38,11 +38,11 @@ public class Enemy : MonoBehaviour
 
     public void SetSpawnPoint(Vector3 point)
     {
-        zeroPosition = point;
+        _zeroPosition = point;
     }
 
     public void RefreshPosition()
     {
-        transform.position = zeroPosition;
+        transform.position = _zeroPosition;
     }
 }
